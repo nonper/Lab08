@@ -3,6 +3,7 @@ package com.example.lab008.contoller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import com.example.lab008.entity.Event;
+import org.springframework.stereotype.Indexed;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -92,10 +93,10 @@ public class EventController {
         page = page == null?1:page;
         Integer firstIndex = (page - 1) * perPage;
         List<Event> output = new ArrayList<>();
-        for(int i = firstIndex; i < firstIndex + perPage ; i++){
+        for(int i = firstIndex; i < firstIndex + perPage ; i++) {
             output.add(eventList.get(i));
         }
-        return ResponseEntity.ok(eventList);
+        return ResponseEntity.ok(output);
     }
 
 }
