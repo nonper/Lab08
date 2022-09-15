@@ -4,6 +4,7 @@ import com.example.lab008.entity.Organizer;
 import com.example.lab008.service.EventService;
 import com.example.lab008.service.OrganizerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,18 +29,15 @@ public class EventController {
     OrganizerService organizerService;
 
     @GetMapping("event")
-    public ResponseEntity<?> getEventLists(@RequestParam(value = "_limit", required = false)Integer perPage
-            ,@RequestParam(value = "_page", required = false)Integer page) {
-        List<Event> output = null;
-        Integer eventSize = eventService.getEventSize();
+    public ResponseEntity<?> getEventLists(@RequestParam(value = "_limit", required = false) Integer perPage
+            , @RequestParam(value = "_page", required = false) Integer page) {
+        Page<Event> pageOutput = eventService.getEvents(perPage, page);
         HttpHeaders responseHeader = new HttpHeaders();
-        responseHeader.set("x-total-count",String.valueOf(eventSize));
-        try{
-            output = eventService.getEvents(perPage, page);
-            return new ResponseEntity<>(output, responseHeader, HttpStatus.OK);
-        }catch (IndexOutOfBoundsException ex){
-            return new ResponseEntity<>(output, responseHeader, HttpStatus.NOT_FOUND);
-        }
+        responseHeader.set("x-total-count",
+                String.valueOf(pageOutput.getTotalElements()));
+
+        return new
+                ResponseEntity<>(pageOutput.getContent(), responseHeader,HttpStatus.OK);
     }
 
     @GetMapping("event/{id}")
@@ -54,18 +52,15 @@ public class EventController {
     }
 
     @GetMapping("organizer")
-    public ResponseEntity<?> getOrganizerLists(@RequestParam(value = "_limit", required = false)Integer perPage
-            ,@RequestParam(value = "_page", required = false)Integer page) {
-        List<Organizer> output = null;
-        Integer organizerSize = organizerService.getOrganizerSize();
+    public ResponseEntity<?> getOrganizerLists(@RequestParam(value = "_limit", required = false) Integer perPage
+            , @RequestParam(value = "_page", required = false) Integer page) {
+        Page<Organizer> pageOutput = organizerService.getOrganizers(perPage, page);
         HttpHeaders responseHeader = new HttpHeaders();
-        responseHeader.set("x-total-count",String.valueOf(organizerSize));
-        try{
-            output = organizerService.getOrganizers(perPage, page);
-            return new ResponseEntity<>(output, responseHeader, HttpStatus.OK);
-        }catch (IndexOutOfBoundsException ex){
-            return new ResponseEntity<>(output, responseHeader, HttpStatus.NOT_FOUND);
-        }
+        responseHeader.set("x-total-count",
+                String.valueOf(pageOutput.getTotalElements()));
+
+        return new
+                ResponseEntity<>(pageOutput.getContent(), responseHeader,HttpStatus.OK);
     }
 
     @GetMapping("organizer/{id}")

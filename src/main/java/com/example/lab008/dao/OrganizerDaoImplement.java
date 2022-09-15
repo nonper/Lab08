@@ -1,6 +1,11 @@
 package com.example.lab008.dao;
 
+import com.example.lab008.entity.Event;
 import com.example.lab008.entity.Organizer;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Profile("manual")
 public class OrganizerDaoImplement implements OrganizerDao {
     List<Organizer> orList;
 
@@ -76,15 +82,24 @@ public class OrganizerDaoImplement implements OrganizerDao {
     }
 
     @Override
-    public List<Organizer> getOrganizers(Integer pageSize, Integer page) {
+    public Page<Organizer> getOrganizers(Integer pageSize, Integer page) {
         pageSize = pageSize == null ? orList.size() : pageSize;
-        page = page == null? 1 :page ;
+        page = page == null ? 1 : page;
         int firstIndex = (page - 1) * pageSize;
-        return orList.subList(firstIndex, firstIndex+pageSize);
+        return new
+                PageImpl<Organizer>(orList.subList(firstIndex, firstIndex + pageSize),
+                PageRequest.of(page, pageSize), orList.size());
     }
 
     @Override
     public Organizer getOrganizer(Long id) {
         return orList.stream().filter(event -> event.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    @Override
+    public Organizer save(Organizer organizer) {
+        organizer.setId(orList.get(orList.size()-1).getId()+1);
+        orList.add(organizer);
+        return organizer;
     }
 }

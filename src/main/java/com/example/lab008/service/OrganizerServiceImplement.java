@@ -3,6 +3,7 @@ package com.example.lab008.service;
 import com.example.lab008.dao.OrganizerDao;
 import com.example.lab008.entity.Organizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class OrganizerServiceImplement implements OrganizerService{
     }
 
     @Override
-    public List<Organizer> getOrganizers(Integer pageSize, Integer page) {
+    public Page<Organizer> getOrganizers(Integer pageSize, Integer page) {
         return organizerDao.getOrganizers(pageSize, page);
     }
 
@@ -27,4 +28,11 @@ public class OrganizerServiceImplement implements OrganizerService{
     public Organizer getOrganizer(Long id) {
         return organizerDao.getOrganizer(id);
     }
+
+    @Override
+    public Organizer save(Organizer organizer) {
+        return null;
+    }
+
+
 }
