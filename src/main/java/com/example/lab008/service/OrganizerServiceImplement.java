@@ -31,7 +31,7 @@ public class OrganizerServiceImplement implements OrganizerService{
 
     @Override
     public Organizer save(Organizer organizer) {
-        return null;
+        return organizerDao.save(organizer);
     }
 
 

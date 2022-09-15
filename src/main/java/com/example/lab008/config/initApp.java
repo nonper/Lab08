@@ -132,12 +132,6 @@ import com.example.lab008.repository.OrganizerRepo;
                     .address("8638 Oak Meadow St. " +
                             "Port Saint Lucie, FL 34952")
                     .build());
-            organizerRepo.save(Organizer.builder()
-                    .id(9L)
-                    .organizerName("Haseeb Justice")
-                    .address("92 W. Foster Court " +
-                            "Warminster, PA 18974")
-                    .build());
 
         }
     }

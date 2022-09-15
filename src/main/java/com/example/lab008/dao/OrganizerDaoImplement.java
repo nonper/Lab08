@@ -102,4 +102,5 @@ public class OrganizerDaoImplement implements OrganizerDao {
         orList.add(organizer);
         return organizer;
     }
+
 }

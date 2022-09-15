@@ -11,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import com.example.lab008.entity.Event;
 import org.springframework.stereotype.Indexed;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +49,12 @@ public class EventController {
         }
     }
 
+    @PostMapping("/event")
+    public ResponseEntity<?> addEvent(@RequestBody Event event) {
+        Event output = eventService.save(event);
+        return ResponseEntity.ok(event);
+    }
+
     @GetMapping("organizer")
     public ResponseEntity<?> getOrganizerLists(@RequestParam(value = "_limit", required = false) Integer perPage
             , @RequestParam(value = "_page", required = false) Integer page) {
@@ -72,5 +76,11 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The given" +
                     " id is not found.");
         }
+    }
+
+    @PostMapping("/organizer")
+    public ResponseEntity<?> addOrganizer(@RequestBody Organizer organizer) {
+        Organizer output = organizerService.save(organizer);
+        return ResponseEntity.ok(organizer);
     }
 }
